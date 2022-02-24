@@ -26,7 +26,7 @@ public class SensorXmlEventToBQJob {
 
         @Description("BQ table name")
         @Default.String("dummy-table")
-        String getBQTable();
+        String getBqTable();
         void setBqTable(String bqTable);
 
     }
@@ -41,7 +41,7 @@ public class SensorXmlEventToBQJob {
                 .as(MyPipelineOptions.class);
 
         String topic = "projects/" + ops.getProject() + "/topics/"+ ops.getTopic();
-        String sensorEventsTable = ops.getProject() + ":" + ops.getBQTable();
+        String sensorEventsTable = ops.getProject() + ":" + ops.getBqTable();
 
         Pipeline pipe = Pipeline.create(ops);
 
