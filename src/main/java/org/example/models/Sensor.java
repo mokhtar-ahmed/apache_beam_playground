@@ -10,7 +10,7 @@ import org.apache.beam.sdk.coders.DefaultCoder;
 import java.io.Serializable;
 
 
-@DefaultCoder(AvroCoder.class)
+//@DefaultCoder(AvroCoder.class)
 @XmlRootElement
 public class Sensor implements Serializable {
 
@@ -101,17 +101,4 @@ public class Sensor implements Serializable {
         this.speed = speed;
     }
 
-    @Override
-    public String toString() {
-        return "Sensor{" +
-                "id='" + id + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", highway='" + highway + '\'' +
-                ", direction='" + direction + '\'' +
-                ", lane='" + lane + '\'' +
-                ", speed='" + speed + '\'' +
-                '}';
-    }
 }
