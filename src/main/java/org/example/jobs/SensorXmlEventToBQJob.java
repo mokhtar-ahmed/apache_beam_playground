@@ -1,6 +1,8 @@
 package org.example.jobs;
 
 import com.google.api.services.bigquery.model.TableRow;
+import org.apache.beam.runners.dataflow.options.DataflowProfilingOptions;
+import org.apache.beam.runners.dataflow.options.DataflowProfilingOptions.DataflowProfilingAgentConfiguration;
 import org.example.models.Sensor;
 import org.example.models.SensorEventBuilder;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
@@ -39,6 +41,14 @@ public class SensorXmlEventToBQJob {
         MyPipelineOptions ops = PipelineOptionsFactory.fromArgs(args)
                 .withValidation()
                 .as(MyPipelineOptions.class);
+
+        DataflowProfilingOptions profilingOptions = ops.as(DataflowProfilingOptions.class);
+        profilingOptions.setSaveProfilesToGcs("gs://" + ops.getProject() + "/profiler");
+
+        DataflowProfilingAgentConfiguration agent = new DataflowProfilingOptions.DataflowProfilingAgentConfiguration();
+        agent.put("APICurated", true);
+
+        profilingOptions.setProfilingAgentConfiguration(agent);
 
         String topic = "projects/" + ops.getProject() + "/topics/"+ ops.getTopic();
         String sensorEventsTable = ops.getProject() + ":" + ops.getBqTable();
