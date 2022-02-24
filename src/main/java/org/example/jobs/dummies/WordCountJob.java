@@ -1,4 +1,4 @@
-package jobs.dummies;
+package org.example.jobs.dummies;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
@@ -9,13 +9,9 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
 import org.apache.beam.sdk.values.KV;
 import org.apache.beam.sdk.values.PCollection;
-import org.apache.beam.sdk.values.TypeDescriptor;
 import org.apache.beam.sdk.values.TypeDescriptors;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 
 public class WordCountJob {

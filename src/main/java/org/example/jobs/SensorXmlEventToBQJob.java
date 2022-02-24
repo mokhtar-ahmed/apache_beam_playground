@@ -1,8 +1,8 @@
-package jobs;
+package org.example.jobs;
 
 import com.google.api.services.bigquery.model.TableRow;
-import models.SensorEvent;
-import models.SensorEventBuilder;
+import org.example.models.SensorEvent;
+import org.example.models.SensorEventBuilder;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;

@@ -1,4 +1,4 @@
-package jobs.dummies;
+package org.example.jobs.dummies;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
