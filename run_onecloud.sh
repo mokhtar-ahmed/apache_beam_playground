@@ -19,7 +19,7 @@ export PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin/:$PATH
 mvn compile -e exec:java \
  -Dexec.mainClass=$MAIN \
       -Dexec.args="--project=$PROJECT \
-      --bqTable=$BQTable\
+      --bqTable=demos.sensor_events\
       --stagingLocation=gs://$BUCKET/staging/ $* \
       --tempLocation=gs://$BUCKET/staging/ \
       --runner=DataflowRunner"
