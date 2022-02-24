@@ -1,7 +1,7 @@
 package org.example.jobs;
 
 import com.google.api.services.bigquery.model.TableRow;
-import org.example.models.SensorEvent;
+import org.example.models.Sensor;
 import org.example.models.SensorEventBuilder;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
@@ -47,7 +47,7 @@ public class SensorXmlEventToBQJob {
 
         pipe
                 .apply("Read xml events",  PubsubIO.readStrings().fromTopic(topic) )
-                .apply("Parse xml events", MapElements.into(new TypeDescriptor<SensorEvent>(){})
+                .apply("Parse xml events", MapElements.into(new TypeDescriptor<Sensor>(){})
                         .via( (String l) -> SensorEventBuilder.buildEvent(l) ))
                 .apply("Convert to BQ row", MapElements.into(new TypeDescriptor<TableRow>() {})
                         .via( e -> SensorEventBuilder.toBQRow(e)))

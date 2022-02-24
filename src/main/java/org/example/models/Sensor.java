@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @DefaultCoder(AvroCoder.class)
 @XmlRootElement
-public class SensorEvent implements Serializable {
+public class Sensor implements Serializable {
 
     private String id;
     private String timestamp;
@@ -25,7 +25,7 @@ public class SensorEvent implements Serializable {
     private TableSchema schema;
 
 
-    public SensorEvent() {
+    public Sensor() {
         // for Avro
     }
 

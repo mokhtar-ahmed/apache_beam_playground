@@ -13,11 +13,11 @@ import java.util.List;
 
 public class SensorEventBuilder {
 
-    public static SensorEvent buildEvent(String xmlEvent) {
+    public static Sensor buildEvent(String xmlEvent) {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(SensorEvent.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Sensor.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            SensorEvent sensor = (SensorEvent) jaxbUnmarshaller.unmarshal(new StringReader(xmlEvent));
+            Sensor sensor = (Sensor) jaxbUnmarshaller.unmarshal(new StringReader(xmlEvent));
 
             return sensor;
         } catch (JAXBException e) {
@@ -42,7 +42,7 @@ public class SensorEventBuilder {
        return  new TableSchema().setFields(fields);
     }
 
-    public static TableRow toBQRow(SensorEvent event) {
+    public static TableRow toBQRow(Sensor event) {
 
         TableRow row = new TableRow();
         row.set("timestamp", event.getTimestamp());
