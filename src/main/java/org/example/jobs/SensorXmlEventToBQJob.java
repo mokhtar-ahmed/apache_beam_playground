@@ -26,15 +26,33 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class SensorXmlEventToBQJob extends AbstractPipeline{
 
-    MyPipelineOptions ops ;
     Pipeline pipe;
+    String topicName;
+    String projectName;
+    String bqTable;
 
-    public MyPipelineOptions getOps() {
-        return ops;
+    public String getBqTable() {
+        return bqTable;
     }
 
-    public void setOps(MyPipelineOptions ops) {
-        this.ops = ops;
+    public void setBqTable(String bqTable) {
+        this.bqTable = bqTable;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public Pipeline getPipe() {
@@ -48,7 +66,7 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     public void init(String[] args) {
 
         PipelineOptionsFactory.register(MyPipelineOptions.class);
-        ops = PipelineOptionsFactory.fromArgs(args)
+        MyPipelineOptions ops = PipelineOptionsFactory.fromArgs(args)
                 .withValidation()
                 .as(MyPipelineOptions.class);
 
@@ -60,13 +78,15 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
         profilingOptions.setProfilingAgentConfiguration(agent);
         pipe = Pipeline.create(ops);
 
-        setOps(ops);
+        setProjectName(ops.getProject());
+        setTopicName(ops.getTopic());
+        setBqTable(ops.getBqTable());
         setPipe(pipe);
     }
 
     @Override
     public PCollection<String> extract() {
-        String topicName = "projects/" + ops.getProject() + "/topics/"+ ops.getTopic();
+        String topicName = "projects/" + getProjectName() + "/topics/"+ getTopicName();
         return pipe.apply("Read xml events", readInput(topicName));
     }
 
@@ -78,7 +98,7 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
 
     @Override
     public WriteResult load(PCollection<TableRow> dataset) {
-        String sensorEventsTable = ops.getProject() + ":" + ops.getBqTable();
+        String sensorEventsTable = getProjectName() + ":" + getBqTable();
         return  dataset.apply("Write to BQ", writeToBQTable(sensorEventsTable));
 
     }
