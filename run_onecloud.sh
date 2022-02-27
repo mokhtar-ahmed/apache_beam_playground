@@ -10,7 +10,7 @@ PROJECT=$1
 shift
 BUCKET=$1
 shift
-MAIN=org.example.jobs.$1
+MAIN=org.example.runners.$1
 shift
 
 echo "Launching $MAIN project=$PROJECT bucket=$BUCKET $*"

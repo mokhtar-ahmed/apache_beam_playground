@@ -9,15 +9,15 @@ import java.io.Serializable;
 
 public abstract class AbstractPipeline implements Serializable {
 
-    public abstract PCollection<String> extract() ;
+    public abstract PCollection<String> extract(Pipeline pipe) ;
     public abstract PCollection<TableRow> transform(PCollection<String> dataset);
     public abstract WriteResult load(PCollection<TableRow> dataset);
 
-    public void execute(Pipeline pipeline){
-        PCollection<String> inputDS = extract();
+    public void execute(Pipeline pipe){
+        PCollection<String> inputDS = extract(pipe);
         PCollection<TableRow> transformedDS = transform(inputDS);
         load(transformedDS);
-        pipeline.run();
+
     }
 
 }

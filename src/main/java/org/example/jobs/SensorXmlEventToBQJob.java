@@ -24,7 +24,6 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class SensorXmlEventToBQJob extends AbstractPipeline{
 
-    Pipeline pipe;
     String topicName;
     String projectName;
     String bqTable;
@@ -53,17 +52,11 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
         this.projectName = projectName;
     }
 
-    public Pipeline getPipe() {
-        return pipe;
-    }
 
-    public void setPipe(Pipeline pipe) {
-        this.pipe = pipe;
-    }
 
 
     @Override
-    public PCollection<String> extract() {
+    public PCollection<String> extract(Pipeline pipe) {
         String topicName = "projects/" + getProjectName() + "/topics/"+ getTopicName();
         return pipe.apply("Read xml events", readInput(topicName));
     }
