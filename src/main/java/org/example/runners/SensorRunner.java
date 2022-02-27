@@ -20,6 +20,7 @@ import org.apache.beam.sdk.transforms.MapElements;
 import org.apache.beam.sdk.values.PCollection;
 import org.apache.beam.sdk.values.TypeDescriptor;
 import org.example.jobs.AbstractPipeline;
+import org.example.jobs.MyPipelineOptions;
 import org.example.jobs.SensorXmlEventToBQJob;
 import org.example.models.SensorEvent;
 
@@ -32,12 +33,32 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class SensorRunner{
 
+    public void init(String[] args) {
 
 
+    }
 
     public static void main(String[] args) {
+
+        PipelineOptionsFactory.register(MyPipelineOptions.class);
+        MyPipelineOptions ops = PipelineOptionsFactory.fromArgs(args)
+                .withValidation()
+                .as(MyPipelineOptions.class);
+
+        DataflowProfilingOptions profilingOptions = ops.as(DataflowProfilingOptions.class);
+        ///profilingOptions.setSaveProfilesToGcs("gs://" + ops.getProject() + "/profiler");
+
+        DataflowProfilingAgentConfiguration agent = new DataflowProfilingOptions.DataflowProfilingAgentConfiguration();
+        agent.put("APICurated", true);
+        profilingOptions.setProfilingAgentConfiguration(agent);
+        Pipeline pipe = Pipeline.create(ops);
+
         SensorXmlEventToBQJob job = new SensorXmlEventToBQJob();
-        job.init(args);
+        job.setProjectName(ops.getProject());
+        job.setTopicName(ops.getTopic());
+        job.setBqTable(ops.getBqTable());
+        job.setPipe(pipe);
+
         job.execute(job.getPipe());
     }
 }

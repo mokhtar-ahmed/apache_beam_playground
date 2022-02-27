@@ -14,13 +14,11 @@ import org.example.models.SensorEvent;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
-import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.MapElements;
 import org.apache.beam.sdk.values.TypeDescriptor;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import static java.lang.Integer.MAX_VALUE;
 
 
@@ -63,26 +61,6 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
         this.pipe = pipe;
     }
 
-    public void init(String[] args) {
-
-        PipelineOptionsFactory.register(MyPipelineOptions.class);
-        MyPipelineOptions ops = PipelineOptionsFactory.fromArgs(args)
-                .withValidation()
-                .as(MyPipelineOptions.class);
-
-        DataflowProfilingOptions profilingOptions = ops.as(DataflowProfilingOptions.class);
-        ///profilingOptions.setSaveProfilesToGcs("gs://" + ops.getProject() + "/profiler");
-
-        DataflowProfilingAgentConfiguration agent = new DataflowProfilingOptions.DataflowProfilingAgentConfiguration();
-        agent.put("APICurated", true);
-        profilingOptions.setProfilingAgentConfiguration(agent);
-        pipe = Pipeline.create(ops);
-
-        setProjectName(ops.getProject());
-        setTopicName(ops.getTopic());
-        setBqTable(ops.getBqTable());
-        setPipe(pipe);
-    }
 
     @Override
     public PCollection<String> extract() {
