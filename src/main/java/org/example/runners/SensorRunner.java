@@ -57,6 +57,8 @@ public class SensorRunner{
         job.setProjectName(ops.getProject());
         job.setTopicName(ops.getTopic());
         job.setBqTable(ops.getBqTable());
+        job.setCpuLoad(ops.getCpuLoad());
+        job.setMemLoad(ops.getMemLoad());
 
         job.execute(pipe);
         pipe.run();
