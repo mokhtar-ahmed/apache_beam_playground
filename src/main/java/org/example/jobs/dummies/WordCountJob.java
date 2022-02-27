@@ -33,7 +33,7 @@ public class WordCountJob {
 
 
     public static class ComputeLength extends DoFn<String, String> {
-        @ProcessElement
+
         public  void processElement(@Element String line, OutputReceiver<String> out) {
             String length = String.valueOf(line.length());
             System.out.println(length);
@@ -56,6 +56,7 @@ public class WordCountJob {
                 TextIO.read().from(testOption.getInput())
         );
 
+        PCollection<String> output1 = lines.apply(ParDo.of(new ComputeLength()));
 
         PCollection<String> output = lines
                 .apply(MapElements.into(TypeDescriptors.lists(TypeDescriptors.strings()))
