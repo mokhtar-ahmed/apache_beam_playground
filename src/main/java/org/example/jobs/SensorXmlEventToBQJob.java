@@ -11,16 +11,12 @@ import org.apache.beam.runners.dataflow.options.DataflowProfilingOptions.Dataflo
 import org.apache.beam.sdk.io.gcp.bigquery.WriteResult;
 import org.apache.beam.sdk.values.PCollection;
 import org.example.models.SensorEvent;
-import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
-import org.apache.beam.sdk.options.Default;
-import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.MapElements;
 import org.apache.beam.sdk.values.TypeDescriptor;
-
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +29,20 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     MyPipelineOptions ops ;
     Pipeline pipe;
 
-    public interface MyPipelineOptions extends DataflowPipelineOptions {
+    public MyPipelineOptions getOps() {
+        return ops;
+    }
 
-        @Description("PubSub topic")
-        @Default.String("sensor_events")
-        String getTopic();
-        void setTopic(String topic);
+    public void setOps(MyPipelineOptions ops) {
+        this.ops = ops;
+    }
 
-        @Description("BQ table name")
-        @Default.String("dummy-table")
-        String getBqTable();
-        void setBqTable(String bqTable);
+    public Pipeline getPipe() {
+        return pipe;
+    }
 
+    public void setPipe(Pipeline pipe) {
+        this.pipe = pipe;
     }
 
     public void init(String[] args) {
@@ -62,6 +60,8 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
         profilingOptions.setProfilingAgentConfiguration(agent);
         pipe = Pipeline.create(ops);
 
+        setOps(ops);
+        setPipe(pipe);
     }
 
     @Override
@@ -155,12 +155,4 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
         }
     }
 
-
-
-    public static void main(String[] args) {
-        SensorXmlEventToBQJob job = new SensorXmlEventToBQJob();
-        job.init(args);
-        job.execute(job.pipe);
-
-    }
 }

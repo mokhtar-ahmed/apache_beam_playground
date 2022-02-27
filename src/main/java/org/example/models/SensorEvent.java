@@ -22,7 +22,6 @@ public class SensorEvent implements Serializable {
     private String direction;
     private String lane;
     private String speed;
-    private TableSchema schema;
 
 
     public SensorEvent() {

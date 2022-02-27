@@ -5,7 +5,9 @@ import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.bigquery.WriteResult;
 import org.apache.beam.sdk.values.PCollection;
 
-public abstract class AbstractPipeline {
+import java.io.Serializable;
+
+public abstract class AbstractPipeline implements Serializable {
 
     public abstract PCollection<String> extract() ;
     public abstract PCollection<TableRow> transform(PCollection<String> dataset);
