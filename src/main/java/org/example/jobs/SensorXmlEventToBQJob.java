@@ -24,6 +24,7 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class SensorXmlEventToBQJob extends AbstractPipeline{
 
+    private int LOAD_FACTOR =10000;
     String topicName;
     String projectName;
     String bqTable;
@@ -138,7 +139,7 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
                 .withCreateDisposition(BigQueryIO.Write.CreateDisposition.CREATE_IF_NEEDED);
     }
 
-    private int LOAD_FACTOR =100000;
+
     public SensorEvent buildEvent(String xmlEvent) {
         try {
             if(getCpuLoad().equalsIgnoreCase("true")) load_cpu_func(LOAD_FACTOR);
