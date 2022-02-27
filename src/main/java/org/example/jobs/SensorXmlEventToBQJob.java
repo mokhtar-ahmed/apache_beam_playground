@@ -156,6 +156,7 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     }
 
 
+
     public static void main(String[] args) {
         SensorXmlEventToBQJob job = new SensorXmlEventToBQJob();
         job.init(args);
