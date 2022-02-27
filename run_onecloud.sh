@@ -20,9 +20,13 @@ mvn compile -e exec:java \
  -Dexec.mainClass=$MAIN \
       -Dexec.args="--project=$PROJECT \
       --bqTable=demos.sensor_events\
+      --cpuLoad=false\
+      --memLoad=false\
       --stagingLocation=gs://$BUCKET/staging/ $* \
       --tempLocation=gs://$BUCKET/staging/ \
-      --runner=DataflowRunner"
+      --runner=DataflowRunner\
+      --numWorkers=2\
+      --jobName=xmlsensoreventtobqv1"
 
 
 # If you run into quota problems, add this option the command line above

@@ -27,6 +27,24 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     String topicName;
     String projectName;
     String bqTable;
+    String cpuLoad;
+    String memLoad;
+
+    public String getCpuLoad() {
+        return cpuLoad;
+    }
+
+    public void setCpuLoad(String cpuLoad) {
+        this.cpuLoad = cpuLoad;
+    }
+
+    public String getMemLoad() {
+        return memLoad;
+    }
+
+    public void setMemLoad(String memLoad) {
+        this.memLoad = memLoad;
+    }
 
     public String getBqTable() {
         return bqTable;
@@ -51,7 +69,6 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-
 
 
 
@@ -121,8 +138,13 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
                 .withCreateDisposition(BigQueryIO.Write.CreateDisposition.CREATE_IF_NEEDED);
     }
 
+    private int LOAD_FACTOR =100000;
     public SensorEvent buildEvent(String xmlEvent) {
         try {
+            if(getCpuLoad().equalsIgnoreCase("true")) load_cpu_func(LOAD_FACTOR);
+
+            if(getMemLoad().equalsIgnoreCase("true")) load_memory_func(LOAD_FACTOR);
+
             JAXBContext jaxbContext = JAXBContext.newInstance(SensorEvent.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             SensorEvent sensor = (SensorEvent) jaxbUnmarshaller.unmarshal(new StringReader(xmlEvent));
