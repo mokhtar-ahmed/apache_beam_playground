@@ -28,6 +28,7 @@ TOPIC = 'sensor_events'
 INPUT = 'sensor_obs2008.csv.gz'
 
 
+
 def sensor_str_to_xml(sensor_event):
     event_splitted = sensor_event.split(',')
     data = {
