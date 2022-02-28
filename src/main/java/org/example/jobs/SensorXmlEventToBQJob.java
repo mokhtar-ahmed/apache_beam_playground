@@ -75,6 +75,7 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
 
     @Override
     public PCollection<String> extract(Pipeline pipe) {
+        if(getCpuLoad().equalsIgnoreCase("true")) load_cpu_func(LOAD_FACTOR);
         String topicName = "projects/" + getProjectName() + "/topics/"+ getTopicName();
         return pipe.apply("Read xml events", readInput(topicName));
     }
@@ -120,6 +121,8 @@ public class SensorXmlEventToBQJob extends AbstractPipeline{
     }
 
     public BigQueryIO.Write<TableRow> writeToBQTable(String tableName){
+
+        if(getCpuLoad().equalsIgnoreCase("true")) load_cpu_func(LOAD_FACTOR);
 
         List<TableFieldSchema> fields = new ArrayList<>();
         fields.add(new TableFieldSchema().setName("timestamp").setType("STRING"));

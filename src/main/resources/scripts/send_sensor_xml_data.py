@@ -33,15 +33,15 @@ def sensor_str_to_xml(sensor_event):
     event_splitted = sensor_event.split(',')
     data = {
         'id' : "ID_JGHK_"+str(random.randint(1, 1000)),
-        'timestamp' : event_splitted[0],
-        'latitude'  : event_splitted[1],
-        'longitude' : event_splitted[2],
-        'highway'   : event_splitted[3],
-        'direction' : event_splitted[4],
-        'lane'      : event_splitted[5],
-        'speed'     : event_splitted[6]
+        'timestamp' : str(event_splitted[0]),
+        'latitude'  : str(event_splitted[1]),
+        'longitude' : str(event_splitted[2]),
+        'highway'   : str(event_splitted[3]),
+        'direction' : str(event_splitted[4]),
+        'lane'      : str(event_splitted[5]),
+        'speed'     : str(event_splitted[6])
     }
-    xml_event = dict2xml(data, wrap ='sensor')
+    xml_event = dict2xml(data, wrap ='sensorEvent')
     return xml_event
 
 def publish(publisher, topic, events):
